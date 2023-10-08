@@ -1,5 +1,10 @@
 import createHttpError from 'http-errors'
-import yup, { ObjectSchema } from 'yup'
+import {
+  InferType,
+  ObjectSchema,
+  object as yupObject,
+  string as yupString
+} from 'yup'
 import {
   getRequiredParam,
   getUserId,
@@ -18,22 +23,21 @@ import {
 /**
  * Request validation
  */
-const UpdateCompanySchema: ObjectSchema<ModifiableCompany> = yup.object({
-  name: yup.string().max(255).trim().required(),
-  slug: yup
-    .string()
+const UpdateCompanySchema: ObjectSchema<ModifiableCompany> = yupObject({
+  name: yupString().max(255).trim().required(),
+  slug: yupString()
     .min(3)
     .max(255)
     .matches(/^[a-zA-Z0-9-]+$/)
     .required(),
-  description: yup.string().optional(),
-  founded: yup.string().optional()
+  description: yupString().optional(),
+  founded: yupString().optional()
 })
 
 /**
  * Business logic
  */
-type HandlerRequestBody = yup.InferType<typeof UpdateCompanySchema>
+type HandlerRequestBody = InferType<typeof UpdateCompanySchema>
 type HandlerRequest = GatewayHttpEvent<HandlerRequestBody>
 type HandlerResponse = Promise<GatewayHttpResponse<Company>>
 const handler = async (event: HandlerRequest): HandlerResponse => {

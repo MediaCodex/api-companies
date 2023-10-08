@@ -1,5 +1,6 @@
-import { httpWrapper, initRepositories, response, setPaginationHeaders } from '../../helpers'
-import { GatewayHttpResponse, Company, GatewayHttpEvent } from '../../types'
+import { httpWrapper, response, setPaginationHeaders } from '../../helpers'
+import { initRepositories } from '../../repositories'
+import { Company, GatewayHttpEvent, GatewayHttpResponse } from '../../types'
 
 type HandlerRequest = GatewayHttpEvent<any>
 type HandlerResponse = Promise<GatewayHttpResponse<Company[]>>

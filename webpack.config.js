@@ -1,18 +1,13 @@
 const path = require('path')
-
-/**
- * Output directory
- */
-const buildDir = path.join(__dirname, 'build')
+const { IgnorePlugin } = require('webpack')
 
 /**
  * Lambda Functions
  */
 const entryPoints = {
-  'http-create': './src/controllers/http/create.js',
-  'http-update': './src/controllers/http/update.js',
-  'http-index': './src/controllers/http/index.js',
-  'http-show': './src/controllers/http/show.js'
+  'http-create': './src/controllers/http/create.ts',
+  'http-update': './src/controllers/http/update.ts',
+  'http-index': './src/controllers/http/index.ts',
 }
 
 /**
@@ -20,26 +15,37 @@ const entryPoints = {
  */
 module.exports = {
   mode: 'production',
-  target: 'node',
+  target: 'node18',
   entry: entryPoints,
-  devtool: "inline-source-map",
+  // devtool: 'source-map',
 
   module: {
     rules: [
       {
-        test: /\.([cm]?ts|tsx)$/,
+        test: /\.tsx?$/,
+        use: 'ts-loader',
         exclude: /node_modules/,
-        use: 'ts-loader'
-      }
+      },
     ]
   },
 
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
+
   output: {
-    libraryTarget: 'commonjs2',
-    path: buildDir
+    path: path.join(__dirname, 'dist'),
+    library: {
+      type: 'commonjs-module'
+    }
   },
 
   optimization: {
-    minimize: false
-  }
+    minimize: true
+  },
+
+  plugins: [
+    // https://github.com/aws/aws-sdk-js-v3/issues/5301
+    new IgnorePlugin({ resourceRegExp: /^aws-crt$/ })
+  ]
 }

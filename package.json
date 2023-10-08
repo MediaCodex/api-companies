@@ -2,14 +2,6 @@
   "name": "@mediacodex/api-companies",
   "version": "1.0.0",
   "description": "API Microservice for companies",
-  "scripts": {
-    "test": "jest --coverage --passWithNoTests",
-    "start": "node -r esm ./src/router.js",
-    "build": "webpack && npm run build:zip",
-    "build:zip": "cd build && for i in *.js; do zip $i.zip $i; done",
-    "lint": "eslint --ext .js --ignore-path .gitignore .",
-    "lint:tf": "cd terraform && terafrom validate -recursive"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mediacodex/api-companies.git"
@@ -20,6 +12,10 @@
     "url": "https://github.com/mediacodex/api-companies/issues"
   },
   "homepage": "https://github.com/mediacodex/api-companies#readme",
+  "engines": {
+    "node": ">= 18.18.0",
+    "npm": ">= 9.8.1"
+  },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.123",
     "@types/http-errors": "^2.0.2",
