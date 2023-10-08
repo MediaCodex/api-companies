@@ -3,23 +3,13 @@ resource "aws_lambda_function" "http_create" {
   role          = aws_iam_role.lambda_http_create.arn
 
   // handler
-  source_code_hash = filebase64sha256("../build/http-create.js.zip")
-  filename         = "../build/http-create.js.zip"
-  handler          = "lumigo-auto-instrument.handler"
+  source_code_hash = filebase64sha256("../build/http-create.zip")
+  filename         = "../dist/http-create.zip"
+  handler          = "index.default"
 
   // runtime
-  runtime = "nodejs12.x"
+  runtime = "nodejs18.x"
   timeout = "15"
-  layers  = [var.lumigo_layer]
-
-  environment {
-    variables = {
-      LUMIGO_TRACER_TOKEN     = var.lumigo_token
-      LUMIGO_ORIGINAL_HANDLER = "http-create.default"
-    }
-  }
-
-  tags = var.default_tags
 }
 
 resource "aws_iam_role" "lambda_http_create" {

@@ -3,23 +3,13 @@ resource "aws_lambda_function" "http_update" {
   role          = aws_iam_role.lambda_http_update.arn
 
   // handler
-  source_code_hash = filebase64sha256("../build/http-update.js.zip")
-  filename         = "../build/http-update.js.zip"
-  handler          = "lumigo-auto-instrument.handler"
+  source_code_hash = filebase64sha256("../build/http-update.zip")
+  filename         = "../build/http-update.zip"
+  handler          = "index.default"
 
   // runtime
-  runtime = "nodejs12.x"
+  runtime = "nodejs18.x"
   timeout = "15"
-  layers  = [var.lumigo_layer]
-
-  environment {
-    variables = {
-      LUMIGO_TRACER_TOKEN     = var.lumigo_token
-      LUMIGO_ORIGINAL_HANDLER = "http-update.default"
-    }
-  }
-
-  tags = var.default_tags
 }
 
 resource "aws_iam_role" "lambda_http_update" {
