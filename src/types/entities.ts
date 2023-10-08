@@ -1,8 +1,8 @@
 export interface BaseEntity {
-  createdAt: string
-  createdBy: string
-  updatedAt?: string
-  updatedBy?: string
+  created_at: string
+  created_by: string
+  updated_at?: string
+  updated_by?: string
 }
 
 /**
@@ -13,5 +13,6 @@ export type CompanyKey = { id: string }
 export interface Company extends BaseEntity, CompanyKey {
   name: string
   slug: string
-  founded?: string
+  description?: string
+  founded?: String
 }

@@ -11,8 +11,8 @@ export const touchCreated = <Entity extends BaseEntity>(
   entity: Entity | any,
   userId: string
 ): Entity => {
-  entity.createdBy = userId
-  entity.createdAt = DateTime.now().toUTC().toISO()!
+  entity.created_by = userId
+  entity.created_at = DateTime.now().toUTC().toISO()!
   return entity
 }
 
@@ -20,8 +20,8 @@ export const touchUpdated = <Entity extends BaseEntity>(
   entity: Entity,
   userId: string
 ): Entity => {
-  entity.updatedBy = userId
-  entity.updatedAt = DateTime.now().toUTC().toISO()!
+  entity.updated_by = userId
+  entity.updated_at = DateTime.now().toUTC().toISO()!
   return entity
 }
 

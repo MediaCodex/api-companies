@@ -1,6 +1,7 @@
 import createHttpError from 'http-errors'
 import yup, { ObjectSchema } from 'yup'
 import {
+  getUserId,
   httpWrapper,
   response,
   safeNanoid,
@@ -27,6 +28,7 @@ const CreateCompanySchema: ObjectSchema<ModifiableCompany> = yup.object({
     .max(255)
     .matches(/^[a-zA-Z0-9-]+$/)
     .required(),
+  description: yup.string().optional(),
   founded: yup.string().optional()
 })
 
@@ -38,7 +40,7 @@ type HandlerRequest = GatewayHttpEvent<HandlerRequestBody>
 type HandlerResponse = Promise<GatewayHttpResponse<Company>>
 const handler = async (event: HandlerRequest): HandlerResponse => {
   const { companyRepository } = initRepositories()
-  const userId = event.requestContext.authorizer.principalId
+  const userId = getUserId(event)
 
   // check slug is not in use
   const companySlug = await companyRepository.findBySlug(event.body.slug)

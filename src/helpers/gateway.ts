@@ -122,6 +122,10 @@ export const getRequiredParam = (
   return param
 }
 
+export const getUserId = (event: GatewayHttpEvent<any>): string => {
+  return event.requestContext.authorizer.principalId
+}
+
 /**
  * Response
  */

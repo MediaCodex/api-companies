@@ -2,6 +2,7 @@ import createHttpError from 'http-errors'
 import yup, { ObjectSchema } from 'yup'
 import {
   getRequiredParam,
+  getUserId,
   httpWrapper,
   response,
   touchUpdated
@@ -25,6 +26,7 @@ const UpdateCompanySchema: ObjectSchema<ModifiableCompany> = yup.object({
     .max(255)
     .matches(/^[a-zA-Z0-9-]+$/)
     .required(),
+  description: yup.string().optional(),
   founded: yup.string().optional()
 })
 
@@ -39,7 +41,7 @@ const handler = async (event: HandlerRequest): HandlerResponse => {
 
   // extract path params
   const companyId = getRequiredParam(event, 'companyId')
-  const userId = event.requestContext.authorizer.principalId
+  const userId = getUserId(event)
 
   // get existing company from db
   const company = await companyRepository.find({ id: companyId })
