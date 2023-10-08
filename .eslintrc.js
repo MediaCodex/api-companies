@@ -1,15 +1,14 @@
 module.exports = {
   env: {
-    es2020: true,
+    es2021: true,
     node: true
   },
   extends: [
-    'standard',
-    'prettier',
-    'prettier/standard'
+    "standard-with-typescript",
+    "prettier"
   ],
   parserOptions: {
-    ecmaVersion: 11,
-    sourceType: 'module'
+    ecmaVersion: "latest",
+    sourceType: "module"
   }
 }
