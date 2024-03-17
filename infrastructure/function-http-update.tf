@@ -3,12 +3,12 @@ resource "aws_lambda_function" "http_update" {
   role          = aws_iam_role.lambda_http_update.arn
 
   // handler
-  source_code_hash = filebase64sha256("../build/http-update.zip")
-  filename         = "../build/http-update.zip"
+  source_code_hash = filebase64sha256("../dist/http-update.zip")
+  filename         = "../dist/http-update.zip"
   handler          = "index.default"
 
   // runtime
-  runtime = "nodejs18.x"
+  runtime = "nodejs20.x"
   timeout = "15"
 }
 
@@ -29,7 +29,7 @@ module "lambda_http_update_gateway" {
   gateway_id            = aws_apigatewayv2_api.public.id
   gateway_execution_arn = aws_apigatewayv2_api.public.execution_arn
 
-  authorizer_id = aws_apigatewayv2_authorizer.public.id
+  authorizer_id = aws_apigatewayv2_authorizer.cognito.id
 }
 
 /*

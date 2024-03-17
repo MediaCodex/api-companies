@@ -3,12 +3,12 @@ resource "aws_lambda_function" "http_create" {
   role          = aws_iam_role.lambda_http_create.arn
 
   // handler
-  source_code_hash = filebase64sha256("../build/http-create.zip")
+  source_code_hash = filebase64sha256("../dist/http-create.zip")
   filename         = "../dist/http-create.zip"
   handler          = "index.default"
 
   // runtime
-  runtime = "nodejs18.x"
+  runtime = "nodejs20.x"
   timeout = "15"
 }
 
@@ -29,7 +29,7 @@ module "lambda_http_create_gateway" {
   gateway_id            = aws_apigatewayv2_api.public.id
   gateway_execution_arn = aws_apigatewayv2_api.public.execution_arn
 
-  authorizer_id = aws_apigatewayv2_authorizer.public.id
+  authorizer_id = aws_apigatewayv2_authorizer.cognito.id
 }
 
 /*

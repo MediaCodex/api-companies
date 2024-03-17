@@ -1,5 +1,5 @@
 resource "aws_apigatewayv2_api" "public" {
-  name          = "public-companies"
+  name          = "companies"
   protocol_type = "HTTP"
 
   disable_execute_api_endpoint = true
@@ -43,14 +43,14 @@ resource "aws_apigatewayv2_authorizer" "cognito" {
   ]
 
   jwt_configuration {
-    issuer   = "https://${data.aws_ssm_parameter.gateway_public_cognito_endpoint.value}"
-    audience = data.aws_ssm_parameter.gateway_public_cognito_audience.value
+    issuer   = "https://${data.aws_ssm_parameter.core_cognito_endpoint.value}"
+    audience = split(",", data.aws_ssm_parameter.core_cognito_audiences.value)
   }
 }
 
 resource "aws_apigatewayv2_api_mapping" "public" {
   api_id          = aws_apigatewayv2_api.public.id
-  domain_name     = data.aws_ssm_parameter.gateway_public_domain.value
+  domain_name     = data.aws_ssm_parameter.core_gateway_domain.value
   stage           = aws_apigatewayv2_stage.v1.id
   api_mapping_key = "v1${local.uri_prefix}"
 }

@@ -1,3 +1,6 @@
+### custom ###
+*.tfplan
+
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,jetbrains+all,node,terraform
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,jetbrains+all,node,terraform
 

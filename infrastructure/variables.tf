@@ -25,6 +25,11 @@ variable "environments" {
 # ----------------------------------------------------------------------------------------------------------------------
 # AWS
 # ----------------------------------------------------------------------------------------------------------------------
+variable "aws_region" {
+  type    = string
+  default = "us-east-1"
+}
+
 variable "default_tags" {
   type        = map(string)
   description = "Common resource tags for all resources"
@@ -32,6 +37,20 @@ variable "default_tags" {
     Service = "companies"
   }
 }
+
+variable "aws_accounts" {
+  type = map(string)
+  default = {
+    dev  = "000000000000"
+    prod = "000000000000"
+  }
+}
+
+variable "aws_role" {
+  type    = string
+  default = "deploy-companies"
+}
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # CORS
@@ -64,14 +83,14 @@ variable "first_deploy" {
 # ----------------------------------------------------------------------------------------------------------------------
 # SSM Params
 # ----------------------------------------------------------------------------------------------------------------------
-data "aws_ssm_parameter" "gateway_public_domain" {
-  name = "/gateway-public/domain"
+data "aws_ssm_parameter" "core_gateway_domain" {
+  name = "/core/gateway-domain"
 }
 
-data "aws_ssm_parameter" "gateway_public_cognito_endpoint" {
-  name = "/gateway-public/cognito-endpoint"
+data "aws_ssm_parameter" "core_cognito_endpoint" {
+  name = "/core/cognito-endpoint"
 }
 
-data "aws_ssm_parameter" "gateway_public_cognito_audience" {
-  name = "/gateway-public/cognito-audience"
+data "aws_ssm_parameter" "core_cognito_audiences" {
+  name = "/core/cognito-audiences"
 }

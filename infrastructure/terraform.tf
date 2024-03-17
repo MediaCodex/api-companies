@@ -1,40 +1,31 @@
 terraform {
-  # backend "s3" {
-  #   bucket               = "terraform-state-0000000000"
-  #   key                  = "companies.tfstate"
-  #   region               = "us-east-1"
-  #   encrypt              = true
-  #   dynamodb_table       = "terraform-lock"
-  #   workspace_key_prefix = "state"
-  # }
-}
+  required_version = ">= 1.7"
 
-variable "deploy_aws_roles" {
-  type = map(string)
-  default = {
-    dev  = "arn:aws:iam::072188420758:role/deploy-companies"
-    prod = "arn:aws:iam::394074848505:role/deploy-companies"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.41"
+    }
   }
-}
 
-variable "deploy_aws_accounts" {
-  type = map(list(string))
-  default = {
-    dev  = ["072188420758"]
-    prod = ["394074848505"]
+  backend "s3" {
+    # bucket         = "terraform-state-000000000000"
+    key            = "companies.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+    dynamodb_table = "terraform-state-lock"
+    workspace_key_prefix = "state"
   }
+
 }
 
 provider "aws" {
   region              = "us-east-1"
-  allowed_account_ids = var.deploy_aws_accounts[local.environment]
+  allowed_account_ids = [var.aws_accounts[local.environment]]
+  default_tags { tags = var.default_tags }
 
   assume_role {
-    role_arn = var.deploy_aws_roles[local.environment]
-  }
-
-  default_tags {
-    tags = var.default_tags
+    # role_arn = "arn:aws:iam::${local.aws_account}:role/${var.aws_role}"
   }
 }
 
