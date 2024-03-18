@@ -7,7 +7,7 @@ const { IgnorePlugin } = require('webpack')
 const entryPoints = {
   'http-create': './src/controllers/http/create.ts',
   'http-update': './src/controllers/http/update.ts',
-  'http-index': './src/controllers/http/index.ts',
+  'http-list': './src/controllers/http/list.ts',
 }
 
 /**

@@ -32,9 +32,9 @@ module "lambda_http_update_gateway" {
   authorizer_id = aws_apigatewayv2_authorizer.cognito.id
 }
 
-/*
- * Permissions
- */
+# ----------------------------------------------------------------------------------------------------------------------
+# Permissions
+# ----------------------------------------------------------------------------------------------------------------------
 module "lambda_http_update_dynamodb" {
   source = "./modules/iam-dynamodb"
   role   = aws_iam_role.lambda_http_update.id
